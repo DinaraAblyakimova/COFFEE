@@ -7,8 +7,8 @@ async function run() {
         await client.connect();
         var database = client.db("coffee"); database.dropDatabase()
         database = client.db("coffee");
-        const cats = database.collection("cup");
-        const result = await cats.insertOne({name:"Капучино"}); 
+        const cup = database.collection("cup");
+        const result = await cup.insertMany(data); 
         console.log(`${result} documents were inserted`);
     } 
     finally {

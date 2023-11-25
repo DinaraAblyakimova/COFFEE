@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test')
+var mongoose = require('mongoose') 
+mongoose.connect('mongodb://localhost/test1') 
+var Cup = require("./models/cup").Cup
 
-var schema = mongoose.Schema({ name: String })
-schema.methods.peculiarity = function(){ 
-    console.log(this.get("name") + " с ванильным сиропом")
-}
-const Cup = mongoose.model('Cup', schema); 
-const cup = new Cup({ name: 'Раф' })
-cup.save().then(() => {
-    cup.peculiarity()
+var schema = mongoose.Schema({name: String})
+
+var cup = new Cup({
+      title: "Капучино",
+      nick: "kapuchino"
 })
+
+cup.save().then(() => {
+      console.log(cup.title)
+})
+

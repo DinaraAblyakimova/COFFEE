@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test');
+mongoose.connect('mongodb://localhost/test')
 
-const Cup = mongoose.model('Cup', { name: String });
-
-const cup = new Cup({ name: 'Раф' });
-cup.save().then(() => console.log('с ванильным сиропом'));
+var schema = mongoose.Schema({ name: String })
+schema.methods.peculiarity = function(){ 
+    console.log(this.get("name") + " с ванильным сиропом")
+}
+const Cup = mongoose.model('Cup', schema); 
+const cup = new Cup({ name: 'Раф' })
+cup.save().then(() => {
+    cup.peculiarity()
+})

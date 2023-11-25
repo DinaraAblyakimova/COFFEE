@@ -11,8 +11,10 @@ async function run() {
         const result = await cup.insertMany(data); 
         console.log(`${result} documents were inserted`);
     } 
+    
     finally {
            await client.close();
     } 
+
 }
 run()

@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Cup = require("../models/cup").Cup;
 
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-  res.send('Новый маршрутизатор, для маршрутов, начинающихся с cups');
-});
+// /* GET users listing. */
+// router.get('/', (req, res, next) => {
+//   res.send('Новый маршрутизатор, для маршрутов, начинающихся с cups');
+// });
 
 
 /* Страница героев */

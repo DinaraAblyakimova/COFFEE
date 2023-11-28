@@ -8,10 +8,11 @@ async function run() {
 
     try {
         await client.connect();
-        var database = client.db("coffee"); database.dropDatabase()
+        var database = client.db("coffee");
+         database.dropDatabase()
         database = client.db("coffee");
-        const cup = database.collection("cup");
-        const result = await cup.insertMany(data); 
+        const cups = database.collection("cups");
+        const result = await cups.insertMany(data); 
         console.log(`${result} documents were inserted`);
     } 
 

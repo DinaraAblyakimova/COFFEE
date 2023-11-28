@@ -10,8 +10,10 @@ var cupSchema = new Schema({
       avatar: String,
       desc: String,
       created:{
-      type:Date,
-      default:Date.now
+      type: Date,
+      default: Date.now
       }
 })
+
+
 module.exports.Cup = mongoose.model("Cup", cupSchema)

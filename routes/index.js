@@ -7,6 +7,12 @@ const Cup = require("../models/cup").Cup
 //     res.render('index', { title: 'Coffee' });
 //   });
 
+router.get('/', function(req, res, next) {
+   res.cookie('greeting', 'Hi!!!').render('index', { 
+    title: 'Express',
+    menu:menu 
+    }); 
+  });
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {

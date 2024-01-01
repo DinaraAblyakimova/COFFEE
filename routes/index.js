@@ -2,6 +2,11 @@ var express = require('express');
 var router = express.Router();
 const Cup = require("../models/cup").Cup
 
+/* GET login/registration page. */
+router.get('/logreg', function(req, res, next) {
+  res.render('logreg',{title: 'Вход'});
+});
+
  /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {

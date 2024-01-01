@@ -13,23 +13,14 @@
       <li class="nav-item">
         <a class="nav-link " href="/">Главная</a>
       </li>
-      <% menu.forEach(cups => { %>
+      <% if(typeof nav == 'object' && nav){ nav.forEach(function(cups){
+        %>
         <li class="nav-item">
-          <a class="nav-link" href="/cups/<%= cups.nick %>"><%= cups.title %></a>
+        <a class="nav-link"
+        href="/cups/<%=cups.nick%>"><%=cups.title%></a>
         </li>
-      <% }) %>
-     <!-- <li class="nav-item">
-        <a class="nav-link" href="/cups/kapuchino">Капучино</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/cups/latte">Латте</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/cups/americano">Американо</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/cups/espresso">Эспрессо</a>
-      </li> -->
+        <% })} %>
+
     </ul>
   </div>
 </nav>

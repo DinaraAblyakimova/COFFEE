@@ -33,8 +33,7 @@ var async = require("async")
     res.render('cup', {
       title: title,
       picture: picture,
-      desc: desc,
-      menu: cups
+      desc: desc
     });
   }
   
@@ -42,22 +41,6 @@ var async = require("async")
   
   module.exports = router;
   
-
-// try {
-//     const cup = await Cup.findOne({ nick: req.params.nick });
-//     console.log(cup);
-//     if (!cup) {
-//       throw new Error("Нет такого!");
-//     }
-//     res.render('cup', {
-//       title: cup.title,
-//       picture: cup.avatar,
-//       desc: cup.desc
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 
 
 

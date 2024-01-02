@@ -3,10 +3,10 @@ const router = express.Router();
 // const Cup = require("../models/cup").Cup;
 var async = require("async")
 var db = require('../mySQLConnect.js');
-// var checkAuth = require("./../middleware/checkAuth.js")
+var checkAuth = require("./../middleware/checkAuth.js")
 
 
-router.get("/:nick", function(req, res, next) {
+router.get("/:nick", checkAuth, function(req, res, next) {
   db.query(`SELECT * FROM cups WHERE cups.nick = '${req.params.nick}'`, (err,cups) => {
   if(err) {
     console.log(err);

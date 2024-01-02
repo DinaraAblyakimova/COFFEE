@@ -1,45 +1,52 @@
 var express = require('express');
 var router = express.Router();
-const Cup = require("../models/cup").Cup
-var User = require("./../models/user").User
 
-/* GET login/registration page. */
-router.get('/logreg', function(req, res, next) {
-  res.render('logreg',{title: 'Вход'});
-});
+const Cup =require("../models/cup").Cup;
+const User = require("../models/user").User;
 
  /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
-    const menu = await Cup.find({}, { _id: 0, title: 1, nick: 1 });
-    req.session.greeting = "Hi!!!"
-    res.render('index', { title:'Express', menu: menu, counter:req.session.counter});
+    res.render('index', { title:'Express', counter:req.session.counter});
   } catch (err) {
     next(err);
   }
 });
 
+/* GET login/registration page. */
+router.get('/logreg', async function(req, res, next) {
+  res.render('logreg', { title: 'Вход',error:null}); 
+});
+
 /* POST login/registration page. */
 router.post('/logreg', async function(req, res, next) {
+  const username = req.body.username;
+  const password = req.body.password;
   try {
-    var username = req.body.username;
-    var password = req.body.password;
-    var user = await User.findOne({ username: username });
-    if (user) {
-      if (user.checkPassword(password)) {
-        req.session.user = user._id;
-        res.redirect('/');
+      const user = await User.findOne({ username });
+
+      if (user) {
+          if (user.checkPassword(password)) {
+              req.session.user = user._id;
+              res.redirect('/');
+          } else {
+              res.render('logreg', { title: 'Вход', error: 'Неверный пароль' });
+          }
       } else {
-        res.render('logreg', { title: 'Вход' });
+          const newUser = new User({ username, password });
+          await newUser.save();
+          req.session.user = newUser._id;
+          res.redirect('/');
       }
-    } else {
-      var newUser = new User({ username: username, password: password });
-      var savedUser = await newUser.save();
-      req.session.user = savedUser._id;
-      res.redirect('/');
-    }
   } catch (err) {
-    next(err);
+      next(err);
   }
 });
+
+router.get('/logreg', function(req, res, next) {
+  res.render('logreg',{error:null});
+  });
+
+
+
 module.exports = router;

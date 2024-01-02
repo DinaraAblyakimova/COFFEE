@@ -1,5 +1,6 @@
 var mongoose = require('mongoose') 
 mongoose.connect('mongodb://localhost/test1') 
+
 var Cup = require("./models/cup").Cup
 var cup = new Cup({
       title: "Капучино",

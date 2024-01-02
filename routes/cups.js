@@ -12,9 +12,7 @@ var async = require("async")
 /* Страница героев */
   router.get('/:nick', async function(req, res, next) {
     try {
-      const [cup, cups] = await Promise.all([
-        Cup.findOne({ nick: req.params.nick }),
-        Cup.find({}, { _id: 0, title: 1, nick: 1 })
+      const [cup, cups] = await Promise.all([Cup.findOne({ nick: req.params.nick }), Cup.find({}, { _id: 0, title: 1, nick: 1 })
       ]);
     
       if (!cup) {

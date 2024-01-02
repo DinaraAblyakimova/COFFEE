@@ -3,15 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require('mongoose') 
-mongoose.connect('mongodb://localhost/coffee')
+// var mongoose = require('mongoose') 
+// mongoose.connect('mongodb://localhost/coffee')
 const session = require("express-session")
+var MySQLStore = require('express-mysql-session')(session); 
+var mysql2 = require('mysql2/promise');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cupsRouter = require('./routes/cups');
 
 var app = express();
+var options = {
+host : '127.0.0.1',
+port: '3306',
+user : 'root',
+password : 'rootroot',
+database: 'coffee'
+};
+
+var connection = mysql2.createPool(options)
+var sessionStore = new MySQLStore( options, connection);
+
 
 // view engine setup
 app.engine('ejs',require('ejs-locals'));
@@ -24,14 +37,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var MongoStore = require('connect-mongo');
-app.use(session({ 
-  secret: "coffee", 
-  cookie: {maxAge: 60*1000},
-  resave: true, 
+
+app.use(session({
+  secret: 'coffee',
+  key: 'sid',
+  store: sessionStore,
+  resave: true,
   saveUninitialized: true,
-  store: MongoStore.create({mongoUrl: 'mongodb://localhost/coffee'})
-}));
+  cookie: { path: '/',
+  httpOnly: true,
+  maxAge: 60*1000
+} }));
+
+// var MongoStore = require('connect-mongo');
+// app.use(session({ 
+//   secret: "coffee", 
+//   cookie: {maxAge: 60*1000},
+//   resave: true, 
+//   saveUninitialized: true,
+//   store: MongoStore.create({mongoUrl: 'mongodb://localhost/coffee'})
+// }));
+var MySQLStore = require('express-mysql-session')(session);
+
 app.use(function(req,res,next){
   req.session.counter = req.session.counter +1 || 1
   next()
@@ -43,6 +70,8 @@ app.use(require("./middleware/createUser.js"))
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cups', cupsRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
